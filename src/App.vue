@@ -5,7 +5,6 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-const name = "Awais"
 export default {
   name: 'App',
   components: {
