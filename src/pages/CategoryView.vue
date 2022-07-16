@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center">{{ category.name }}</h1>
+  <h1>{{ category.name }}</h1>
   <ForumList :title="category.name" :forums="getForumsFromCategory(category)" />
 </template>
 
