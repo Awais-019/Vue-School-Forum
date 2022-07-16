@@ -1,11 +1,6 @@
 <template>
-  <ForumList
-    v-for="category in categories"
-    :key="category.id"
-    :forums="getForumsFromCategory(category)"
-    :title="category.name"
-    :category-id="category.id"
-  />
+  <h1 class="text-center">{{ category.name }}</h1>
+  <ForumList :title="category.name" :forums="getForumsFromCategory(category)" />
 </template>
 
 <script>
@@ -16,9 +11,14 @@ export default {
     ForumList
   },
   props: {
-    categories: {
-      type: Array,
+    id: {
+      type: String,
       required: true
+    }
+  },
+  computed: {
+    category () {
+      return sourceData.categories.find((category) => category.id === this.id)
     }
   },
   methods: {
