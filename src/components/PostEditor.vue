@@ -3,7 +3,7 @@
     <form @submit.prevent="save">
       <div class="form-group">
         <textarea
-          v-model="newPostText"
+          v-model="text"
           name=""
           id=""
           class="form-input"
@@ -27,15 +27,13 @@ export default {
   },
   methods: {
     save () {
-      const postId = 'aaaa' + Math.random()
       const post = {
-        id: postId,
         text: this.text,
         publishedAt: Math.floor(Date.now() / 1000),
         userId: 'u4r8XCziZEWEXsj2UIKNHBoDh0n2'
       }
-      this.newPostText = ''
       this.$emit('save', { post })
+      this.text = ''
     }
   }
 }
