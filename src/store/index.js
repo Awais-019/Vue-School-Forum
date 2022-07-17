@@ -7,10 +7,12 @@ export default createStore({
     authId: 'VXjpr2WHa8Ux4Bnggym8QFLdv5C3'
   },
   actions: {
-    createPost (context, post) {
+    createPost ({ commit, state }, post) {
       post.id = 'aaaa' + Math.random()
-      context.commit('setPost', { post }) // set the post
-      context.commit('appendPostToThread', {
+      post.userId = state.authId
+      post.publishedAt = Math.floor(Date.now() / 1000)
+      commit('setPost', { post }) // set the post
+      commit('appendPostToThread', {
         postId: post.id,
         threadId: post.threadId
       }) // append the post to the thread
