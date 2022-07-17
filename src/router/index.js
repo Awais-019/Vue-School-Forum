@@ -1,5 +1,6 @@
 import HomeView from '@/pages/HomeView.vue'
 import ThreadShow from '@/pages/ThreadShow.vue'
+import ThreadCreate from '@/pages/ThreadCreate.vue'
 import NotFound from '@/pages/NotFound.vue'
 import ForumView from '@/pages/ForumView.vue'
 import Category from '@/pages/CategoryView.vue'
@@ -64,6 +65,12 @@ const routes = [
         })
       }
     }
+  },
+  {
+    path: '/forum/:forumId/thread/create',
+    name: 'ThreadCreate',
+    component: ThreadCreate,
+    props: true
   },
   {
     path: '/:pathMatch(.*)*',
