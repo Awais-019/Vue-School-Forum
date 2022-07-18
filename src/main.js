@@ -2,6 +2,12 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import firebase from 'firebase/app'
+import firebaseConfig from '@/config/firebase'
+
+const firebaseApp = firebase.initializeApp(firebaseConfig)
+const db = firebaseApp.firestore()
+export default db
 
 const forumApp = createApp(App)
 forumApp.use(router)
