@@ -27,12 +27,12 @@ export default {
     }
   },
   methods: {
-    async save (title, text) {
+    async save ({ title, text }) {
       // dispactch a vuex action
       const thread = await this.$store.dispatch('createThread', {
         forumId: this.forum.id,
-        title: title,
-        text: text
+        title,
+        text
       })
       this.$router.push({ name: 'ThreadShow', params: { id: thread.id } })
     },
