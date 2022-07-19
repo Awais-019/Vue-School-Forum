@@ -6,7 +6,6 @@ import NotFound from '@/pages/NotFound.vue'
 import ForumView from '@/pages/ForumView.vue'
 import Category from '@/pages/CategoryView.vue'
 import Profile from '@/pages/ProfileView.vue'
-import sourceData from '@/data.json'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -46,26 +45,26 @@ const routes = [
     path: '/thread/:id',
     name: 'ThreadShow',
     component: ThreadShow,
-    props: true,
-    beforeEnter (to, from, next) {
-      // check if thread exists
-      const threads = sourceData.threads.find(
-        (thread) => thread.id === to.params.id
-      )
-      // if exsits, go to thread
-      if (threads) {
-        return next()
-      } else {
-        // if not, redirect to 404
-        next({
-          name: 'NotFound',
-          params: { pathMatch: to.path.substring(1).split('/') },
-          // preserve query and hash
-          query: to.query,
-          hash: to.hash
-        })
-      }
-    }
+    props: true
+    // beforeEnter (to, from, next) {
+    //   // check if thread exists
+    //   const threads = sourceData.threads.find(
+    //     (thread) => thread.id === to.params.id
+    //   )
+    //   // if exsits, go to thread
+    //   if (threads) {
+    //     return next()
+    //   } else {
+    //     // if not, redirect to 404
+    //     next({
+    //       name: 'NotFound',
+    //       params: { pathMatch: to.path.substring(1).split('/') },
+    //       // preserve query and hash
+    //       query: to.query,
+    //       hash: to.hash
+    //     })
+    //   }
+    // }
   },
   {
     path: '/forum/:forumId/thread/create',
