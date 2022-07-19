@@ -126,6 +126,9 @@ export default createStore({
     fetchThreads ({ dispatch }, { ids }) {
       return dispatch('fetchItems', { resource: 'threads', ids, emoji: '📄' })
     },
+    fetchForums ({ dispatch }, { ids }) {
+      return dispatch('fetchItems', { resource: 'forums', ids, emoji: '🏁' })
+    },
     fetchUsers ({ dispatch }, { ids }) {
       return dispatch('fetchItems', { resource: 'users', ids, emoji: '🙋' })
     },
