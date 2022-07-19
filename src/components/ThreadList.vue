@@ -61,7 +61,7 @@ export default {
       return this.posts.find((p) => p.id === postId)
     },
     userById (userId) {
-      return this.users.find((u) => u.id === userId)
+      return this.users.find((u) => u.id === userId) || {}
     }
   }
 }

@@ -15,7 +15,7 @@ export default {
     }
   },
   async beforeCreate () {
-    const catergories = await this.$store.dispatch('fetchAllCatergories')
+    const catergories = await this.$store.dispatch('fetchAllCategories')
     const forumIds = catergories.map((catergory) => catergory.forums).flat()
     this.$store.dispatch('fetchForums', { ids: forumIds })
     console.log('before create', this.$store.state.categories)

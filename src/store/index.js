@@ -44,6 +44,7 @@ export default createStore({
     thread: (state) => {
       return (id) => {
         const thread = findById(state.threads, id)
+        if (!thread) return {}
         return {
           ...thread,
           get author () {
@@ -97,16 +98,28 @@ export default createStore({
       commit('setItem', { resource: 'posts', item: newPost })
       return newThread
     },
-    fetchThread ({ dispatch }, { id }) {
-      return dispatch('fetchItem', { resource: 'threads', id, emoji: '📄' })
+    // ---------------------------------------
+    // Fetch Single Resource
+    // ---------------------------------------
+    fetchCategory ({ dispatch }, { id }) {
+      return dispatch('fetchItem', { emoji: '🏷', resource: 'categories', id })
     },
-    fetchUser ({ dispatch }, { id }) {
-      return dispatch('fetchItem', { resource: 'users', id, emoji: '🙋' })
+    fetchForum ({ dispatch }, { id }) {
+      return dispatch('fetchItem', { emoji: '🏁', resource: 'forums', id })
+    },
+    fetchThread ({ dispatch }, { id }) {
+      return dispatch('fetchItem', { emoji: '📄', resource: 'threads', id })
     },
     fetchPost ({ dispatch }, { id }) {
-      return dispatch('fetchItem', { resource: 'posts', id, emoji: '💬' })
+      return dispatch('fetchItem', { emoji: '💬', resource: 'posts', id })
     },
-    fetchAllCatergories ({ commit }) {
+    fetchUser ({ dispatch }, { id }) {
+      return dispatch('fetchItem', { emoji: '🙋', resource: 'users', id })
+    },
+    // ---------------------------------------
+    // Fetch All of a Resource
+    // ---------------------------------------
+    fetchAllCategories ({ commit }) {
       console.log('🔥', '🏷', 'all')
       return new Promise((resolve) => {
         firebase
@@ -118,24 +131,33 @@ export default createStore({
               commit('setItem', { resource: 'categories', item })
               return item
             })
-            console.log(categories)
             resolve(categories)
           })
       })
     },
-    fetchThreads ({ dispatch }, { ids }) {
-      return dispatch('fetchItems', { resource: 'threads', ids, emoji: '📄' })
+    // ---------------------------------------
+    // Fetch Multiple Resources
+    // ---------------------------------------
+    fetchCategories ({ dispatch }, { ids }) {
+      return dispatch('fetchItems', {
+        resource: 'categories',
+        ids,
+        emoji: '🏷'
+      })
     },
     fetchForums ({ dispatch }, { ids }) {
       return dispatch('fetchItems', { resource: 'forums', ids, emoji: '🏁' })
     },
-    fetchUsers ({ dispatch }, { ids }) {
-      return dispatch('fetchItems', { resource: 'users', ids, emoji: '🙋' })
+    fetchThreads ({ dispatch }, { ids }) {
+      return dispatch('fetchItems', { resource: 'threads', ids, emoji: '📄' })
     },
     fetchPosts ({ dispatch }, { ids }) {
       return dispatch('fetchItems', { resource: 'posts', ids, emoji: '💬' })
     },
-    fetchItem ({ commit, state }, { id, emoji, resource }) {
+    fetchUsers ({ dispatch }, { ids }) {
+      return dispatch('fetchItems', { resource: 'users', ids, emoji: '🙋' })
+    },
+    fetchItem ({ state, commit }, { id, emoji, resource }) {
       console.log('🔥', emoji, id)
       return new Promise((resolve) => {
         firebase
