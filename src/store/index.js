@@ -1,10 +1,15 @@
 import { createStore } from 'vuex'
-import sourceData from '@/data.json'
 import { findById, upsert } from '@/helpers'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 
 export default createStore({
   state: {
-    ...sourceData,
+    categories: [],
+    forums: [],
+    threads: [],
+    posts: [],
+    users: [],
     authId: '7uVPJS9GHoftN58Z2MXCYDqmNAh2'
   },
   getters: {
@@ -59,7 +64,7 @@ export default createStore({
       post.id = 'aaaa' + Math.random()
       post.userId = state.authId
       post.publishedAt = Math.floor(Date.now() / 1000)
-      commit('setPost', { post }) // set the post
+      commit('setItem', { resource: 'posts', item: post }) // set the post
       commit('appendPostToThread', {
         childId: post.id,
         parentId: post.threadId
@@ -70,14 +75,14 @@ export default createStore({
       }) // append contributor to the thread
     },
     updateUser ({ commit }, user) {
-      commit('setUser', { user, userId: user.id })
+      commit('setItem', { resources: 'users', item: user })
     },
     async createThread ({ commit, state, dispatch }, { title, text, forumId }) {
       const id = 'aaaa' + Math.random()
       const userId = state.authId
       const publishedAt = Math.floor(Date.now() / 1000)
       const thread = { forumId, title, publishedAt, userId, id }
-      commit('setThread', { thread })
+      commit('setItem', { resource: 'threads', item: thread })
       commit('appendThreadToForum', { parentId: forumId, childId: id })
       commit('appendThreadToUser', { parentId: userId, childId: id })
       dispatch('createPost', { text, threadId: id })
@@ -88,22 +93,38 @@ export default createStore({
       const post = findById(state.posts, thread.posts[0].id)
       const newThread = { ...thread, title }
       const newPost = { ...post, text }
-      commit('setThread', { thread: newThread })
-      commit('setPost', { post: newPost })
+      commit('setItem', { resource: 'threads', item: newThread })
+      commit('setItem', { resource: 'posts', item: newPost })
       return newThread
+    },
+    fetchThread ({ dispatch }, { id }) {
+      return dispatch('fetchItem', { resource: 'threads', id, emoji: '📄' })
+    },
+    fetchUser ({ dispatch }, { id }) {
+      return dispatch('fetchItem', { resource: 'users', id, emoji: '🙋' })
+    },
+    fetchPost ({ dispatch }, { id }) {
+      return dispatch('fetchItem', { resource: 'posts', id, emoji: '💬' })
+    },
+    fetchItem ({ commit, state }, { id, emoji, resource }) {
+      console.log('🔥', emoji, id)
+      return new Promise((resolve) => {
+        firebase
+          .firestore()
+          .collection(resource)
+          .doc(id)
+          .onSnapshot((doc) => {
+            const item = { ...doc.data(), id: doc.id }
+            commit('setItem', { resource, item })
+            resolve(item)
+          })
+      })
     }
   },
 
   mutations: {
-    setPost (state, { post }) {
-      upsert(state.posts, post)
-    },
-    setThread (state, { thread }) {
-      upsert(state.threads, thread)
-    },
-    setUser (state, { user, userId }) {
-      const userIndex = state.users.findIndex((user) => user.id === userId)
-      state.users[userIndex] = user
+    setItem (state, { resource, item }) {
+      upsert(state[resource], item)
     },
     appendPostToThread: makeAppendChildToParentMutation({
       parent: 'threads',

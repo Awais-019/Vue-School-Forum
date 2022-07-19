@@ -10,7 +10,7 @@
       </router-link>
     </h1>
     <p>
-      By <a href="#" class="link-unstyled">{{ thread.author.name }}</a
+      By <a href="#" class="link-unstyled">{{ thread.author?.name }}</a
       >, <AppDate :timestamp="thread.publishedAt" />.
       <span
         style="float: right; margin-top: 2px"
@@ -62,6 +62,18 @@ export default {
       }
       this.$store.dispatch('createPost', post)
     }
+  },
+  async created () {
+    // fetch the threads from the store
+    const thread = await this.$store.dispatch('fetchThread', { id: this.id })
+    // fetch the user
+    this.$store.dispatch('fetchUser', { id: thread.userId })
+    // fetch the posts for this thread
+    thread.posts.forEach(async (postId) => {
+      const post = await this.$store.dispatch('fetchPost', { id: postId })
+      // fetch user for each post
+      this.$store.dispatch('fetchUser', { id: post.userId })
+    })
   }
 }
 </script>
