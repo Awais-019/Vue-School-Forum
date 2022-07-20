@@ -7,6 +7,7 @@ import ForumView from '@/pages/ForumView.vue'
 import Category from '@/pages/CategoryView.vue'
 import Profile from '@/pages/ProfileView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '@/store'
 
 const routes = [
   {
@@ -94,6 +95,10 @@ const router = createRouter({
     if (to.meta.smoothScroll) scroll.behavior = 'smooth'
     return scroll
   }
+})
+
+router.beforeEach(() => {
+  store.dispatch('unsubscribeAllSnapshots')
 })
 
 export default router
