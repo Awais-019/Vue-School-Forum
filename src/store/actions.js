@@ -157,7 +157,7 @@ export default {
         .onSnapshot((doc) => {
           const item = { ...doc.data(), id: doc.id }
           commit('setItem', { resource, item })
-          resolve(item)
+          setTimeout(() => resolve(item), 500)
         })
       commit('appendUnsubscribe', { unsubscribe })
     })
