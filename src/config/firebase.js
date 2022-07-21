@@ -1,8 +1,8 @@
 module.exports = {
-  apiKey: 'AIzaSyAw0IPfUGsj0_6BaOhL_OyuuxLjjoWfGpY',
-  authDomain: 'vue-school-forum-f847b.firebaseapp.com',
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+  authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
   projectId: 'vue-school-forum-f847b',
-  storageBucket: 'vue-school-forum-f847b.appspot.com',
-  messagingSenderId: '157856862987',
-  appId: '1:157856862987:web:11df790d3daf253593080e'
+  storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VUE_APP_FIREBASE_APP_ID
 }
