@@ -6,6 +6,7 @@ import NotFound from '@/pages/NotFound.vue'
 import ForumView from '@/pages/ForumView.vue'
 import Category from '@/pages/CategoryView.vue'
 import Profile from '@/pages/ProfileView.vue'
+import RegisterForm from '@/pages/RegisterForm.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import store from '@/store'
 
@@ -78,6 +79,11 @@ const routes = [
     name: 'ThreadEdit',
     component: ThreadEdit,
     props: true
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterForm
   },
   {
     path: '/:pathMatch(.*)*',
