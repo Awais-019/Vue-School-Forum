@@ -44,7 +44,7 @@ export default {
     const result = await firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-    dispatch('createUser', {
+    await dispatch('createUser', {
       id: result.user.uid,
       email,
       name,
@@ -147,8 +147,13 @@ export default {
     dispatch('fetchItem', { emoji: '💬', resource: 'posts', id }),
   fetchUser: ({ dispatch }, { id }) =>
     dispatch('fetchItem', { emoji: '🙋', resource: 'users', id }),
-  fetchAuthUser: ({ dispatch, state }) =>
-    dispatch('fetchItem', { emoji: '🙋', resource: 'users', id: state.authId }),
+  fetchAuthUser: ({ dispatch, state, commit }) => {
+    const userId = firebase.auth().currentUser?.uid
+    console.log('In fetchauth', userId)
+    if (!userId) return
+    commit('setAuthId', userId)
+    dispatch('fetchItem', { emoji: '🙋', resource: 'users', id: state.authId })
+  },
   // ---------------------------------------
   // Fetch All of a Resource
   // ---------------------------------------
