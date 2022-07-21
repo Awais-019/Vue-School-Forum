@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "db:seed": "firebase firestore:delete --all-collections && node ./firestoreImport.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
