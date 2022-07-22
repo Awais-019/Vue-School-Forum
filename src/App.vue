@@ -1,7 +1,7 @@
 <template>
   <TheNavBar />
   <div class="container">
-    <router-view v-show="showPage" @ready="onPageReady" />
+    <router-view v-show="showPage" @ready="onPageReady" :key="$route.path" />
     <AppSpinner v-show="!showPage" />
   </div>
 </template>
