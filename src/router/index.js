@@ -49,26 +49,27 @@ const routes = [
     path: '/thread/:id',
     name: 'ThreadShow',
     component: ThreadShow,
-    props: true
-    // beforeEnter (to, from, next) {
-    //   // check if thread exists
-    //   const threads = sourceData.threads.find(
-    //     (thread) => thread.id === to.params.id
-    //   )
-    //   // if exsits, go to thread
-    //   if (threads) {
-    //     return next()
-    //   } else {
-    //     // if not, redirect to 404
-    //     next({
-    //       name: 'NotFound',
-    //       params: { pathMatch: to.path.substring(1).split('/') },
-    //       // preserve query and hash
-    //       query: to.query,
-    //       hash: to.hash
-    //     })
-    //   }
-    // }
+    props: true,
+    async beforeEnter (to, from, next) {
+      await store.dispatch('fetchThread', { id: to.params.id })
+      // check if thread exists
+      const threads = store.state.threads.find(
+        (thread) => thread.id === to.params.id
+      )
+      // if exsits, go to thread
+      if (threads) {
+        return next()
+      } else {
+        // if not, redirect to 404
+        next({
+          name: 'NotFound',
+          params: { pathMatch: to.path.substring(1).split('/') },
+          // preserve query and hash
+          query: to.query,
+          hash: to.hash
+        })
+      }
+    }
   },
   {
     path: '/forum/:forumId/thread/create',
@@ -119,7 +120,9 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-  if (store.state.authObserverUnsubscribe) { store.state.authObserverUnsubscribe() }
+  if (store.state.authObserverUnsubscribe) {
+    store.state.authObserverUnsubscribe()
+  }
   await store.dispatch('initAuthentication')
   store.dispatch('unsubscribeAllSnapshots')
   if (to.meta.requiresAuth && !store.state.authId) {
