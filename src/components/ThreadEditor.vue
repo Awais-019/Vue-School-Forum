@@ -27,7 +27,12 @@
       <button @click.prevent="$emit('cancel')" class="btn btn-ghost">
         Cancel
       </button>
-      <button class="btn btn-blue" type="submit" name="Publish">
+      <button
+        @click.prevent="save"
+        class="btn btn-blue"
+        type="submit"
+        name="Publish"
+      >
         {{ existing ? "Update" : "Publish" }}
       </button>
     </div>
@@ -61,7 +66,20 @@ export default {
   },
   methods: {
     save () {
+      this.$emit('clean')
       this.$emit('save', { ...this.form })
+    }
+  },
+  watch: {
+    form: {
+      handler () {
+        if (this.form.title !== this.title || this.form.text !== this.text) {
+          this.$emit('dirty')
+        } else {
+          this.$emit('clean')
+        }
+      },
+      deep: true
     }
   }
 }

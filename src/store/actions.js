@@ -173,16 +173,17 @@ export default {
   fetchAuthUser: ({ dispatch, state, commit }) => {
     const userId = firebase.auth().currentUser?.uid
     console.log('In fetchauth', userId)
-    commit('setAuthId', userId)
     if (!userId) return
     dispatch('fetchItem', {
       emoji: '🙋',
       resource: 'users',
-      id: state.authId,
+      id: userId,
       handleUnsubscribe: (unsubscribe) => {
         commit('setAuthUserUnsubscribe', unsubscribe)
       }
     })
+    commit('setAuthId', userId)
+    console.log('Auth id set', state.authId)
   },
   // ---------------------------------------
   // Fetch All of a Resource
