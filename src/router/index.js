@@ -118,7 +118,9 @@ const router = createRouter({
   }
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach(async (to, from) => {
+  if (store.state.authObserverUnsubscribe) { store.state.authObserverUnsubscribe() }
+  await store.dispatch('initAuthentication')
   store.dispatch('unsubscribeAllSnapshots')
   if (to.meta.requiresAuth && !store.state.authId) {
     return { name: 'Home' }

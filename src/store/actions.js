@@ -4,6 +4,22 @@ import 'firebase/firestore'
 import 'firebase/auth'
 
 export default {
+  initAuthentication ({ state, dispatch, commit }) {
+    if (state.authObserverUnsubscribe) state.authObserverUnsubscribe()
+    return new Promise((resolve) => {
+      const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
+        console.log('👣 the user has changed')
+        dispatch('unsubscribeAuthUserSnapshot')
+        if (user) {
+          await dispatch('fetchAuthUser')
+          resolve(user)
+        } else {
+          resolve(null)
+        }
+      })
+      commit('setAuthObserverUnsubscribe', unsubscribe)
+    })
+  },
   async createPost ({ commit, state }, post) {
     post.userId = state.authId
     post.publishedAt = firebase.firestore.FieldValue.serverTimestamp()
@@ -170,11 +186,11 @@ export default {
     dispatch('fetchItem', { emoji: '💬', resource: 'posts', id }),
   fetchUser: ({ dispatch }, { id }) =>
     dispatch('fetchItem', { emoji: '🙋', resource: 'users', id }),
-  fetchAuthUser: ({ dispatch, state, commit }) => {
+  fetchAuthUser: async ({ dispatch, state, commit }) => {
     const userId = firebase.auth().currentUser?.uid
     console.log('In fetchauth', userId)
     if (!userId) return
-    dispatch('fetchItem', {
+    await dispatch('fetchItem', {
       emoji: '🙋',
       resource: 'users',
       id: userId,
