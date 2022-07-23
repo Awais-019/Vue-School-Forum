@@ -7,6 +7,7 @@ import 'firebase/auth'
 import firebaseConfig from '@/config/firebase'
 import FontAwesome from '@/plugins/FontAwesome'
 import ClickOutsideDirective from '@/plugins/ClickOutsideDirective'
+import PageScrollDirective from '@/plugins/PageScrollDirective'
 
 firebase.initializeApp(firebaseConfig)
 
@@ -15,6 +16,7 @@ forumApp.use(router)
 forumApp.use(store)
 forumApp.use(FontAwesome)
 forumApp.use(ClickOutsideDirective)
+forumApp.use(PageScrollDirective)
 
 const requireComponent = require.context(
   './components',
