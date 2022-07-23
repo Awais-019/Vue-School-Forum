@@ -29,17 +29,18 @@ export default {
   mixins: [asyncDataStatus],
   computed: {
     thread () {
-      return this.$store.state.threads.find((thread) => thread.id === this.id)
+      return this.$store.state.threads.items.find((thread) => thread.id === this.id)
     },
     text () {
-      const post = this.$store.state.posts.find(
+      const post = this.$store.state.posts.items.find(
         (post) => post.id === this.thread.posts[0]
       )
       return post.text || ''
     }
   },
   methods: {
-    ...mapActions(['fetchThread', 'fetchPost', 'updateThread']),
+    ...mapActions('threads', ['fetchThread', 'updateThread']),
+    ...mapActions('posts', ['fetchPost']),
     async save ({ title, text }) {
       // dispactch a vuex action
       const thread = await this.updateThread({

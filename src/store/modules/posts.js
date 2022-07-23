@@ -4,7 +4,7 @@ import 'firebase/firestore'
 export default {
   namespaced: true,
   state: {
-    posts: []
+    items: []
   },
   getter: {},
   actions: {

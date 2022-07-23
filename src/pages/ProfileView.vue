@@ -40,12 +40,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
+    ...mapGetters('users', {
       user: 'authUser'
     })
   },
   async created () {
-    await this.$store.dispatch('fetchAuthUserPosts')
+    await this.$store.dispatch('auth/fetchAuthUserPosts')
     this.asyncDataStatus_fetched()
   }
 }

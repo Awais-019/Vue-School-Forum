@@ -26,16 +26,17 @@ export default {
   computed: {
     category () {
       return (
-        this.$store.state.categories.find(
+        this.$store.state.categories.items.find(
           (category) => category.id === this.id
         ) || {}
       )
     }
   },
   methods: {
-    ...mapActions(['fetchCategory', 'fetchForums']),
+    ...mapActions('categories', ['fetchCategory']),
+    ...mapActions('forums', ['fetchForums']),
     getForumsFromCategory (category) {
-      return this.$store.state.forums.filter(
+      return this.$store.state.forums.items.filter(
         (forum) => forum.categoryId === category.id
       )
     }

@@ -34,13 +34,14 @@ export default {
   mixins: [asyncDataStatus],
   computed: {
     forum () {
-      return this.$store.state.forums.find(
+      return this.$store.state.forums.items.find(
         (forum) => forum.id === this.forumId
       )
     }
   },
   methods: {
-    ...mapActions(['fetchForum', 'createThread']),
+    ...mapActions('threads', ['createThread']),
+    ...mapActions('forums', ['fetchForum']),
     async save ({ title, text }) {
       // dispactch a vuex action
       const thread = await this.createThread({

@@ -14,7 +14,7 @@ export default {
   getters: {
     user: (state, getters, rootState) => {
       return (id) => {
-        const user = findById(state.users, id)
+        const user = findById(state.items, id)
         if (!user) return null
         return {
           ...user,
