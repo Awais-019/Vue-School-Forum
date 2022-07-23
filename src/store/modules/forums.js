@@ -1,15 +1,24 @@
 import { makeAppendChildToParentMutation } from '@/helpers'
 
 export default {
+  namespaced: true,
   state: {
     items: []
   },
   getter: {},
   actions: {
     fetchForum: ({ dispatch }, { id }) =>
-      dispatch('fetchItem', { emoji: '🏁', resource: 'forums', id }),
+      dispatch(
+        'fetchItem',
+        { emoji: '🏁', resource: 'forums', id },
+        { root: true }
+      ),
     fetchForums: ({ dispatch }, { ids }) =>
-      dispatch('fetchItems', { resource: 'forums', ids, emoji: '🏁' })
+      dispatch(
+        'fetchItems',
+        { resource: 'forums', ids, emoji: '🏁' },
+        { root: true }
+      )
   },
   mutations: {
     appendThreadToForum: makeAppendChildToParentMutation({
