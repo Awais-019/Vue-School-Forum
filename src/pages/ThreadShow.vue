@@ -43,6 +43,7 @@ import AppDate from '@/components/AppDate.vue'
 import { mapActions, mapGetters } from 'vuex'
 import asyncDataStatus from '@/mixins/asyncDataStatus'
 import useNotifications from '@/Composables/useNotifications'
+import difference from 'lodash/difference'
 export default {
   components: {
     PostList,
@@ -51,6 +52,7 @@ export default {
   },
   setup () {
     const { addNotification } = useNotifications()
+    return { addNotification }
   },
   props: {
     id: {
@@ -84,17 +86,28 @@ export default {
         threadId: this.id
       }
       this.createPost(post)
+    },
+    async fetchPostsWithUsers (ids) {
+      // fetch the posts for this thread
+      const posts = await this.fetchPosts({
+        ids: ids
+      })
+      const users = posts.map((post) => post.userId).concat(this.thread.userId)
+      await this.fetchUsers({ ids: users })
     }
   },
   async created () {
     // fetch the threads from the store
-    const thread = await this.fetchThread({ id: this.id })
-    // fetch the posts for this thread
-    const posts = await this.fetchPosts({
-      ids: thread.posts
+    const thread = await this.fetchThread({
+      id: this.id,
+      onSnapshot: ({ isLocal, item, previousItem }) => {
+        if (!this.asyncDataStatus_ready || isLocal) return
+        const newPostIds = difference(item.posts, previousItem.posts)
+        this.fetchPostsWithUsers(newPostIds)
+        this.addNotification({ message: 'Thread recently updated' })
+      }
     })
-    const users = posts.map((post) => post.userId).concat(thread.userId)
-    await this.fetchUsers({ ids: users })
+    this.fetchPostsWithUsers(thread.posts)
     this.asyncDataStatus_fetched()
   }
 }
