@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import { makeFetchItemAction, makeFetchItemsAction } from '@/helpers'
 
 export default {
   namespaced: true,
@@ -76,18 +77,8 @@ export default {
         { root: true }
       )
     },
-    fetchPost: ({ dispatch }, { id }) =>
-      dispatch(
-        'fetchItem',
-        { emoji: '💬', resource: 'posts', id },
-        { root: true }
-      ),
-    fetchPosts: ({ dispatch }, { ids }) =>
-      dispatch(
-        'fetchItems',
-        { resource: 'posts', ids, emoji: '💬' },
-        { root: true }
-      )
+    fetchPost: makeFetchItemAction({ emoji: '💬', resource: 'posts' }),
+    fetchPosts: makeFetchItemsAction({ emoji: '💬', resource: 'posts' })
   },
   mutations: {}
 }

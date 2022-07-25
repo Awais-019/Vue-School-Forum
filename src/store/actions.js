@@ -5,7 +5,7 @@ import 'firebase/auth'
 export default {
   fetchItem (
     { state, commit },
-    { id, emoji, resource, handleUnsubscribe = null }
+    { id, emoji, resource, handleUnsubscribe = null, once = false }
   ) {
     console.log('🔥', emoji, id)
     return new Promise((resolve) => {
@@ -14,6 +14,9 @@ export default {
         .collection(resource)
         .doc(id)
         .onSnapshot((doc) => {
+          if (once) {
+            unsubscribe()
+          }
           if (doc.exists) {
             const item = { ...doc.data(), id: doc.id }
             commit('setItem', { resource, item })
