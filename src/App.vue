@@ -8,15 +8,17 @@
     />
     <AppSpinner v-show="!showPage" />
   </div>
+  <AppNotifications />
 </template>
 
 <script>
+import AppNotifications from '@/components/AppNotifications.vue'
 import TheNavBar from '@/components/TheNavBar.vue'
 import { mapActions } from 'vuex'
 import NProgress from 'nprogress'
 export default {
   name: 'App',
-  components: { TheNavBar },
+  components: { TheNavBar, AppNotifications },
   data () {
     return {
       showPage: false

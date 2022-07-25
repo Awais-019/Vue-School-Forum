@@ -42,11 +42,15 @@ import PostEditor from '@/components/PostEditor.vue'
 import AppDate from '@/components/AppDate.vue'
 import { mapActions, mapGetters } from 'vuex'
 import asyncDataStatus from '@/mixins/asyncDataStatus'
+import useNotifications from '@/Composables/useNotifications'
 export default {
   components: {
     PostList,
     PostEditor,
     AppDate
+  },
+  setup () {
+    const { addNotification } = useNotifications()
   },
   props: {
     id: {
