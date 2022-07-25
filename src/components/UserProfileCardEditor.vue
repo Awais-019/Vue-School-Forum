@@ -3,7 +3,7 @@
     <form @submit.prevent="save">
       <p class="text-center avatar-edit">
         <label for="avatar">
-          <img
+          <AppAvatarImage
             :src="activeUser.avatar"
             :alt="`${user.name} profile picture`"
             class="avatar-xlarge img-update"
@@ -102,7 +102,8 @@
 
 <script>
 import { mapActions } from 'vuex'
-import AppSpinner from './AppSpinner.vue'
+import AppSpinner from '@/components/AppSpinner.vue'
+import AppAvatarImage from '@/components/AppAvatarImage.vue'
 export default {
   props: {
     user: {
@@ -110,6 +111,7 @@ export default {
       required: true
     }
   },
+  components: { AppSpinner, AppAvatarImage },
   data () {
     return {
       uploadingImage: false,
@@ -132,8 +134,7 @@ export default {
     cancel () {
       this.$router.push({ name: 'Profile' })
     }
-  },
-  components: { AppSpinner }
+  }
 }
 </script>
 

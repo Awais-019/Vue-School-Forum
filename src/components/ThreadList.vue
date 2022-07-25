@@ -20,10 +20,9 @@
         <div class="activity">
           <p class="replies-count">{{ thread.posts.length }} replies</p>
 
-          <img
+          <AppAvatarImage
             class="avatar-medium"
             :src="userById(thread.userId).avatar"
-            alt=""
           />
 
           <div>
@@ -41,6 +40,7 @@
 </template>
 
 <script>
+import AppAvatarImage from '@/components/AppAvatarImage.vue'
 export default {
   props: {
     threads: {
@@ -48,6 +48,7 @@ export default {
       required: true
     }
   },
+  components: { AppAvatarImage },
   computed: {
     posts () {
       return this.$store.state.posts.items

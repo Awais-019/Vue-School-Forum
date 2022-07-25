@@ -2,9 +2,8 @@
   <div>
     <div class="profile-card">
       <p class="text-center">
-        <img
+        <app-avatar-image
           :src="user.avatar"
-          :alt="`${user.name} profile picture`"
           class="avatar-xlarge"
         />
       </p>
@@ -43,7 +42,9 @@
 </template>
 
 <script>
+import AppAvatarImage from '@/components/AppAvatarImage.vue'
 export default {
+  components: { AppAvatarImage },
   props: {
     user: {
       type: Object,

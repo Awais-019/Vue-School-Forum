@@ -5,10 +5,9 @@
         <a href="#" class="user-name">{{ userById(post.userId).name }}</a>
 
         <a href="#">
-          <img
+          <AppAvatarImage
             class="avatar-large"
             :src="userById(post.userId).avatar"
-            alt=""
           />
         </a>
 
@@ -53,6 +52,7 @@
 <script>
 import PostEditor from '@/components/PostEditor.vue'
 import { mapActions } from 'vuex'
+import AppAvatarImage from '@/components/AppAvatarImage.vue'
 export default {
   props: {
     posts: {
@@ -60,6 +60,7 @@ export default {
       type: Array
     }
   },
+  components: { PostEditor, AppAvatarImage },
   data () {
     return {
       editing: null
@@ -82,8 +83,7 @@ export default {
       this.updatePost(event.post)
       this.editing = null
     }
-  },
-  components: { PostEditor }
+  }
 }
 </script>
 

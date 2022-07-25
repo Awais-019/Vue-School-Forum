@@ -3,7 +3,7 @@
     class="header"
     id="header"
     v-click-outside="() => (mobileNavMenu = false)"
-    v-page-scroll="() => ( mobileNavMenu= false)"
+    v-page-scroll="() => (mobileNavMenu = false)"
   >
     <router-link :to="{ name: 'Home' }" class="logo">
       <img src="../assets/svg/vueschool-logo.svg" />
@@ -24,10 +24,9 @@
             @click.prevent="userDropdownOpen = !userDropdownOpen"
             v-click-outside="() => (userDropdownOpen = false)"
           >
-            <img
+            <app-avatar-image
               class="avatar-small"
               :src="authUser.avatar"
-              :alt="`${authUser.name} profile picture`"
             />
             <span>
               {{ authUser.name }}
@@ -107,7 +106,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import AppAvatarImage from '@/components/AppAvatarImage.vue'
 export default {
+  components: { AppAvatarImage },
   data () {
     return {
       userDropdownOpen: false,
