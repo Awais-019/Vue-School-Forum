@@ -107,7 +107,8 @@ export default {
         .orderBy('publishedAt', 'desc')
         .limit(10)
       if (startAfter) {
-        const doc = await firebase.firestore
+        const doc = await firebase
+          .firestore()
           .collection('posts')
           .doc(startAfter.id)
           .get()
