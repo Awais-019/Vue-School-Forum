@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/storage'
 
 export default {
   namespaced: true,
@@ -38,6 +39,16 @@ export default {
       const result = await firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
+      if (avatar) {
+        const storageBucket = firebase
+          .storage()
+          .ref()
+          .child(
+            `uploads/${result.user.uid}/images/${Date.now()}-${avatar.name}`
+          )
+        const snapshot = await storageBucket.put(avatar)
+        avatar = await snapshot.ref.getDownloadURL()
+      }
       await dispatch(
         'users/createUser',
         {
