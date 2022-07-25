@@ -1,12 +1,30 @@
 <template>
   <div class="profile-card">
     <form @submit.prevent="save">
-      <p class="text-center">
-        <img
-          :src="user.avatar"
-          :alt="`${user.name} profile picture`"
-          class="avatar-xlarge img-update"
-        />
+      <p class="text-center avatar-edit">
+        <label for="avatar">
+          <img
+            :src="activeUser.avatar"
+            :alt="`${user.name} profile picture`"
+            class="avatar-xlarge img-update"
+          />
+          <div class="avatar-upload-overlay">
+            <AppSpinner v-if="uploadingImage" color="white" />
+            <fa-icon
+              v-else
+              icon="camera"
+              size="3x"
+              :style="{ color: 'white', opcaity: '8' }"
+            ></fa-icon>
+          </div>
+          <input
+            v-show="false"
+            type="file"
+            id="avatar"
+            accept="image/*"
+            @change="handleAvatarUpload"
+          />
+        </label>
       </p>
 
       <div class="form-group">
@@ -83,6 +101,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import AppSpinner from './AppSpinner.vue'
 export default {
   props: {
     user: {
@@ -92,10 +112,18 @@ export default {
   },
   data () {
     return {
+      uploadingImage: false,
       activeUser: { ...this.user }
     }
   },
   methods: {
+    ...mapActions('auth', ['uploadAvatar']),
+    async handleAvatarUpload (e) {
+      this.uploadingImage = true
+      const file = e.target.files[0]
+      this.activeUser.avatar = await this.uploadAvatar({ file })
+      this.uploadingImage = false
+    },
     save () {
       this.$store.dispatch('users/updateUser', { ...this.activeUser })
       this.$router.push({ name: 'Profile' })
@@ -103,7 +131,8 @@ export default {
     cancel () {
       this.$router.push({ name: 'Profile' })
     }
-  }
+  },
+  components: { AppSpinner }
 }
 </script>
 

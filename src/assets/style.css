@@ -2802,3 +2802,12 @@ hr {
 .Pagination .Page-active {
   color: white;
 }
+avatar-edit {
+  position: relative;
+}
+.avatar-edit .avatar-upload-overlay {
+  position: absolute;
+  top: 30%;
+  left: 17%;
+  transform: translate(-50%, -50%);
+}
