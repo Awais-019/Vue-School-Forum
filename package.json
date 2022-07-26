@@ -19,6 +19,7 @@
     "eslint": "^8.19.0",
     "firebase": "^8.0.0",
     "firestore-export-import": "^1.2.0",
+    "vee-validate": "^4.6.2",
     "vue": "^3.2.13",
     "vue-router": "^4.1.2",
     "vuex": "^4.0.2"

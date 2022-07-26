@@ -1,17 +1,37 @@
 <template>
   <div class="flex-grid justify-center">
     <div class="col-2">
-      <form @submit.prevent="register" class="card card-form">
+      <VeeForm
+        @submit="register"
+        class="card card-form"
+        :validation-schema="{
+          name: (value) => {
+            if (value.trim()) return true;
+            return 'Name is required';
+          },
+          username: (value) => {
+            if (value.trim()) return true;
+            return 'Username is required';
+          },
+        }"
+      >
         <h1 class="text-center">Register</h1>
 
         <div class="form-group">
           <label for="name">Full Name</label>
-          <input v-model="form.name" id="name" type="text" class="form-input" />
+          <VeeField
+            name="name"
+            v-model="form.name"
+            id="name"
+            type="text"
+            class="form-input"
+          />
         </div>
 
         <div class="form-group">
           <label for="username">Username</label>
-          <input
+          <VeeField
+            name="username"
             v-model="form.username"
             id="username"
             type="text"
@@ -21,7 +41,8 @@
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input
+          <VeeField
+            name="email"
             v-model="form.email"
             id="email"
             type="email"
@@ -31,7 +52,8 @@
 
         <div class="form-group">
           <label for="password">Password</label>
-          <input
+          <VeeField
+            name="password"
             v-model="form.password"
             id="password"
             type="password"
@@ -46,7 +68,8 @@
               <img :src="avatarPreview" class="avatar-xlargeS" />
             </div>
           </label>
-          <input
+          <VeeField
+            name="avatar"
             v-show="!avatarPreview"
             id="avatar"
             type="file"
@@ -59,7 +82,7 @@
         <div class="form-actions">
           <button type="submit" class="btn-blue btn-block">Register</button>
         </div>
-      </form>
+      </VeeForm>
       <div class="text-center push-top">
         <button @click.prevent="registerWithGoogle" class="btn-red btn-xsmall">
           <i class="fa fa-google fa-btn"></i>Sign up with Google
@@ -70,7 +93,12 @@
 </template>
 
 <script>
+import { Form, Field } from 'vee-validate'
 export default {
+  components: {
+    VeeForm: Form,
+    VeeField: Field
+  },
   data () {
     return {
       avatarPreview: null,
