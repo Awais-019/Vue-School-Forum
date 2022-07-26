@@ -12,7 +12,7 @@
             id="name"
             type="text"
             class="form-input"
-            :rules="required"
+            rules="required"
           />
           <VeeErrorMessage name="name" class="form-error" />
         </div>
@@ -25,7 +25,7 @@
             id="username"
             type="text"
             class="form-input"
-            :rules="required"
+            rules="required"
           />
           <VeeErrorMessage name="username" class="form-error" />
         </div>
@@ -84,13 +84,7 @@
 </template>
 
 <script>
-import { Form, Field, ErrorMessage } from 'vee-validate'
 export default {
-  components: {
-    VeeForm: Form,
-    VeeField: Field,
-    VeeErrorMessage: ErrorMessage
-  },
   data () {
     return {
       avatarPreview: null,
@@ -104,10 +98,6 @@ export default {
     }
   },
   methods: {
-    required (value) {
-      if (value.trim()) return true
-      return 'Name is required'
-    },
     async register () {
       await this.$store.dispatch(
         'auth/registerUserWithEmailAndPassword',
