@@ -1,34 +1,25 @@
 <template>
-  <form @submit.prevent="save">
-    <div class="form-group">
-      <label for="thread_title">Title:</label>
-      <input
-        v-model="this.form.title"
-        type="text"
-        id="thread_title"
-        class="form-input"
-        name="title"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="thread_content">Content:</label>
-      <textarea
-        v-model="this.form.text"
-        id="thread_content"
-        class="form-input"
-        name="content"
-        rows="8"
-        cols="140"
-      ></textarea>
-    </div>
-
+  <VeeForm @submit="save">
+    <AppFormField
+      label="Title"
+      name="title"
+      v-model="form.title"
+      rules="required"
+    />
+    <AppFormField
+      as="textarea"
+      label="Content"
+      name="text"
+      v-model="form.text"
+      rules="required"
+      rows="8"
+      cols="140"
+    />
     <div class="btn-group">
       <button @click.prevent="$emit('cancel')" class="btn btn-ghost">
         Cancel
       </button>
       <button
-        @click.prevent="save"
         class="btn btn-blue"
         type="submit"
         name="Publish"
@@ -36,11 +27,13 @@
         {{ existing ? "Update" : "Publish" }}
       </button>
     </div>
-  </form>
+  </VeeForm>
 </template>
 
 <script>
+import AppFormField from '@/components/AppFormField.vue'
 export default {
+  components: { AppFormField },
   props: {
     title: {
       type: String,
