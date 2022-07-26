@@ -15,7 +15,6 @@ export default {
       onSnapshot = null
     }
   ) {
-    console.log('🔥', emoji, id)
     return new Promise((resolve) => {
       const unsubscribe = firebase
         .firestore()
@@ -47,6 +46,7 @@ export default {
     })
   },
   fetchItems ({ dispatch }, { ids, resource, emoji, onSnapshot = null }) {
+    ids = ids || []
     return Promise.all(
       ids.map((id) =>
         dispatch('fetchItem', { id, resource, emoji, onSnapshot })

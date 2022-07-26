@@ -114,7 +114,6 @@ export default {
     const thread = await this.fetchThread({
       id: this.id,
       onSnapshot: ({ isLocal, item, previousItem }) => {
-        console.log('ready and islocal', this.asyncDataStatus_ready, isLocal)
         if (!this.asyncDataStatus_ready || isLocal) return
         const newPosts = difference(item.posts, previousItem.posts)
         const hasNewPosts = newPosts.length > 0
@@ -129,7 +128,6 @@ export default {
       }
     })
     await this.fetchPostsWithUsers(thread.posts)
-    console.log('ready', this.asyncDataStatus_ready)
     this.asyncDataStatus_fetched()
   }
 }

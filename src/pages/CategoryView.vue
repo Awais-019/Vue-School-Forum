@@ -42,7 +42,6 @@ export default {
     }
   },
   async created () {
-    console.log('In category view created')
     const category = await this.fetchCategory({ id: this.id })
     await this.fetchForums({ ids: category.forums })
     this.asyncDataStatus_fetched()

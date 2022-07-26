@@ -2,10 +2,7 @@
   <div>
     <div class="profile-card">
       <p class="text-center">
-        <app-avatar-image
-          :src="user.avatar"
-          class="avatar-xlarge"
-        />
+        <app-avatar-image :src="user.avatar" class="avatar-xlarge" />
       </p>
 
       <h1 class="title">{{ user.username }}</h1>
@@ -28,12 +25,8 @@
         <a :href="user.website">{{ user.website }}</a>
       </p>
     </div>
-    <p class="text-xsmall text-faded text-center">
-      Member since june 2003, last visited 4 hours ago
-    </p>
 
     <div class="text-center">
-      <hr />
       <router-link :to="{ name: 'ProfileEdit' }" class="btn-green btn-small"
         >Edit Profile</router-link
       >

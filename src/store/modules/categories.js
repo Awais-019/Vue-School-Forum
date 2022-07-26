@@ -12,7 +12,6 @@ export default {
     fetchCategory: makeFetchItemAction({ emoji: '🏷', resource: 'categories' }),
     fetchCategories: makeFetchItemsAction({ emoji: '🏷', resource: 'categories' }),
     fetchAllCategories ({ commit }) {
-      console.log('🔥', '🏷', 'all')
       return new Promise((resolve) => {
         firebase
           .firestore()

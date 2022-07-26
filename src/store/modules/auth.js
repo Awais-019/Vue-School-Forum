@@ -21,7 +21,6 @@ export default {
       if (state.authObserverUnsubscribe) state.authObserverUnsubscribe()
       return new Promise((resolve) => {
         const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
-          console.log('👣 the user has changed')
           dispatch('unsubscribeAuthUserSnapshot')
           if (user) {
             await dispatch('fetchAuthUser')
@@ -67,7 +66,6 @@ export default {
           .child(`uploads/${authId}/images/${Date.now()}-${filename}`)
         const snapshot = await storageBucket.put(file)
         const url = await snapshot.ref.getDownloadURL()
-        console.log('📷 uploaded avatar', url)
         return url
       } catch (error) {
         const { addNotification } = useNotifications()
@@ -106,7 +104,6 @@ export default {
     },
     fetchAuthUser: async ({ dispatch, state, commit }) => {
       const userId = firebase.auth().currentUser?.uid
-      console.log('In fetchauth', userId)
       if (!userId) return
       await dispatch(
         'fetchItem',
@@ -121,7 +118,6 @@ export default {
         { root: true }
       )
       commit('setAuthId', userId)
-      console.log('Auth id set', state.authId)
     },
     async fetchAuthUserPosts ({ commit, state }, { startAfter }) {
       // limit(10) number of records to get

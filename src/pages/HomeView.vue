@@ -24,7 +24,6 @@ export default {
     ...mapActions('forums', ['fetchForums'])
   },
   async created () {
-    console.log('In home view created')
     const catergories = await this.fetchAllCategories()
     const forumIds = catergories.map((catergory) => catergory.forums).flat()
     await this.fetchForums({ ids: forumIds })
