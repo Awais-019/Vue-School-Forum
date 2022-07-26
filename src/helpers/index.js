@@ -4,7 +4,7 @@ export const findById = (resources, id) => {
 }
 
 export const upsert = (resources, resource) => {
-  const index = resources.findIndex((r) => r.id === resource.id)
+  const index = resources?.findIndex((r) => r.id === resource.id)
   if (resource.id && index !== -1) {
     resources[index] = resource
   } else {
