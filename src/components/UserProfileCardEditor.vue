@@ -90,8 +90,17 @@
           autocomplete="off"
           class="form-input"
           id="user_location"
+          list="locations"
+          @mouseenter="loadLocationOptions"
         />
       </div>
+      <datalist id="locations">
+        <option
+          v-for="location in locationOptions"
+          :value="location.name.common"
+          :key="location.name.common"
+        />
+      </datalist>
 
       <div class="btn-group space-between">
         <button class="btn-ghost" @click.prevent="cancel">Cancel</button>
@@ -117,11 +126,17 @@ export default {
   data () {
     return {
       uploadingImage: false,
-      activeUser: { ...this.user }
+      activeUser: { ...this.user },
+      locationOptions: []
     }
   },
   methods: {
     ...mapActions('auth', ['uploadAvatar']),
+    async loadLocationOptions () {
+      if (this.locationOptions.length > 0) return
+      const res = await fetch('https://restcountries.com/v3.1/all')
+      this.locationOptions = await res.json()
+    },
     async handleAvatarUpload (e) {
       this.uploadingImage = true
       const file = e.target.files[0]
