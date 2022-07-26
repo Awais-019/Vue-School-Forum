@@ -47,6 +47,7 @@
           <label for="password">Password</label>
           <VeeField
             name="password"
+            label="Password"
             v-model="form.password"
             id="password"
             type="password"
